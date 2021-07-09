@@ -63,6 +63,10 @@ public class Heap {
     	shiftDown(0);
     	return max;
     }
+    public int returnMax()
+    {
+    	return H[0];
+    }
     static void swap(int x,int y)
     {
     	int temp;

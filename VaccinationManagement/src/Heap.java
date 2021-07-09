@@ -25,7 +25,9 @@ public class Heap {
     {
     	while(i>0&&(H[parent(i)]<H[i]))
     		{
-    		  swap(H[i],H[parent(i)]);
+    		  int temp=H[i];
+    		  H[i]=H[parent(i)];
+    		  H[parent(i)]=temp;
     		  i=parent(i);
     		}
     }
@@ -33,35 +35,58 @@ public class Heap {
     {
     	int max=i;
     	int l=leftchild(i);
-    	if(H[max]<H[l])
+    	int r=rightchild(i);
+    	/*
+    	int currentMax= (H[l]<H[r]) ? r : l;
+    	if(H[max]<currentMax)
+    	{
+    		max=currentMax;
+    	}
+    	*/
+    	if(H[max]<H[l]&&(l<size))
     	{
     		max=l;
     	}
-    	int r=rightchild(i);
-    	if(H[max]<H[r])
+    	if(H[max]<H[r]&&(r<size))
     	{
     		max=r;
     	}
     	if(i!=max)
     	{
-    		swap(H[i],H[max]);
+    		int temp=0;
+    		temp=H[max];
+    		H[max]=H[i];
+    		H[i]=temp;
     		shiftDown(max);
     	}
     }
     public void insert(int key)
     {
     	size=size+1;
-    	H[size]=key;
-    	
-    	shiftUp(size);
+    	H[size-1]=key;
+    	for(int i=0;i<=size/2;i++)
+    	{
+			shiftUp(size-1);
+    	}
     }
     public int delete()
     {
     	int max=H[0];
-    	H[0]=H[size];
+    	H[0]=H[size-1];
     	size=size-1;
-    	shiftDown(0);
+    	for(int i=size/2;i>=0;i--)
+    	{
+			shiftDown(i);
+    	}
     	return max;
+    }
+    public void print()
+    {
+    	for(int i=0;i<size;i++)
+    	{
+    		System.out.print(H[i]+ " ");
+    	}
+    	System.out.println();
     }
     static void swap(int x,int y)
     {

@@ -1,14 +1,14 @@
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Heap {
-	private int[] H=new int[100];
-	private int size=-1;
+	//private User[] H=new User[100];
+	private ArrayList<User> Users=new ArrayList<User>();
 	
-	public Heap(int[] h, int size) {
+	public Heap(ArrayList<User> U) {
 		super();
-		H = h;
-		this.size = size;
+		Users=U;
 	}
-	
 	static int parent(int i)
 	{
 		return (i-1)/2;
@@ -23,12 +23,15 @@ public class Heap {
     }
     public void shiftUp(int i)
     {
-    	while(i>0&&(H[parent(i)]<H[i]))
+    	while(i>0&&(Users.get(parent(i)).getAge()<Users.get(i).getAge()))
     		{
-    		  int temp=H[i];
+    		/*
+    		  User temp=H[i];
     		  H[i]=H[parent(i)];
     		  H[parent(i)]=temp;
     		  i=parent(i);
+    		  */
+    		Collections.swap(Users,i,parent(i));
     		}
     }
     public void shiftDown(int i)
@@ -43,38 +46,37 @@ public class Heap {
     		max=currentMax;
     	}
     	*/
-    	if(H[max]<H[l]&&(l<size))
-    	{
-    		max=l;
-    	}
-    	if(H[max]<H[r]&&(r<size))
-    	{
-    		max=r;
-    	}
+        if((l<Users.size())&&Users.get(max).getAge()<Users.get(l).getAge())
+        {
+        	max=l;
+        }
+        if((r<Users.size())&&(Users.get(max).getAge()<Users.get(r).getAge()))
+        {
+        	max=r;
+        }
     	if(i!=max)
     	{
-    		int temp=0;
-    		temp=H[max];
-    		H[max]=H[i];
-    		H[i]=temp;
+    		Collections.swap(Users,i,max);
     		shiftDown(max);
     	}
+
     }
-    public void insert(int key)
+    public void insert(User key)
     {
-    	size=size+1;
-    	H[size-1]=key;
-    	for(int i=0;i<=size/2;i++)
+    	//H[size-1]=key;
+    	Users.add(key);
+    	for(int i=0;i<=Users.size()/2;i++)
     	{
-			shiftUp(size-1);
+			shiftUp(Users.size()-1);
     	}
     }
-    public int delete()
+    public User delete()
     {
-    	int max=H[0];
-    	H[0]=H[size-1];
-    	size=size-1;
-    	for(int i=size/2;i>=0;i--)
+    	
+    	User max=Users.get(0);
+    	Users.set(0, Users.get(Users.size()-1));
+    	Users.remove(Users.size()-1);
+    	for(int i=Users.size()/2;i>=0;i--)
     	{
 			shiftDown(i);
     	}
@@ -82,17 +84,10 @@ public class Heap {
     }
     public void print()
     {
-    	for(int i=0;i<size;i++)
+    	for(int i=0;i<Users.size();i++)
     	{
-    		System.out.print(H[i]+ " ");
+    		System.out.print(Users.get(i).toString()+ " ");
     	}
     	System.out.println();
-    }
-    static void swap(int x,int y)
-    {
-    	int temp;
-    	temp=x;
-    	x=y;
-    	y=temp;
     }
 }

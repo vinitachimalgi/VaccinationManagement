@@ -72,18 +72,28 @@ public class Heap {
     }
     public User delete()
     {
-    	
-    	User max=Users.get(0);
-    	Users.set(0, Users.get(Users.size()-1));
-    	Users.remove(Users.size()-1);
-    	for(int i=Users.size()/2;i>=0;i--)
+    	User max;
+    	if(Users.size() > 0)
     	{
-			shiftDown(i);
+    		max=Users.get(0);
+        	Users.set(0, Users.get(Users.size()-1));
+        	Users.remove(Users.size()-1);
+        	for(int i=Users.size()/2;i>=0;i--)
+        	{
+    			shiftDown(i);
+        	}
+        	//return max;
+    	}
+    	else
+    	{
+    		max = null;
     	}
     	return max;
+    	
     }
     public void print()
     {
+    	
     	for(int i=0;i<Users.size();i++)
     	{
     		System.out.print(Users.get(i).toString()+ " ");

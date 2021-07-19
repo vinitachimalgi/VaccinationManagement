@@ -7,23 +7,42 @@ public class PriorityQueue {
 		ArrayList<User> Users = new ArrayList<User>();
 		Scanner sc = new Scanner(System.in);
 		int n, age;
+		int length;
+		User max;
 		long aadharno;
 		String name;
+		final String Validator = "[A-Z]*";
 		int choice = 0;
 		Heap h=new Heap(Users);
 		do {
 			choice = menu();
 			switch (choice) {
-			case 1:
+			case 1:  //multiple entries
 				System.out.println("Enter the number of entries");
 				n = sc.nextInt();
 
 				for (int i = 0; i < n; i++) {
-					System.out.println("Enter name: ");
-					name = sc.next();
-					System.out.println("Enter aadhar card number: ");
-					aadharno = sc.nextLong();
-					System.out.println("Enter the age");
+					do {
+						System.out.println("Enter name*Capital letters only*: ");
+						name = sc.next();
+						if(name.matches(Validator) == false)
+						{
+							System.out.println("\nEnter valid name");
+						}
+						
+					}while(name.matches(Validator) == false);
+					
+					do {
+						System.out.println("Enter aadhar card number: ");
+						aadharno = sc.nextLong();
+						length = (int) (Math.log10(aadharno) + 1);
+						if(length != 12)
+						{
+							System.out.println("\nEnter valid aadhar number");
+						}
+					}while(length != 12);
+					
+					System.out.println("Enter the age");  //enter an exception for less tan 18
 					age = sc.nextInt();
 					Users.add(new User(name, aadharno, age));
 				}
@@ -33,30 +52,77 @@ public class PriorityQueue {
 				}
 				System.out.println("The above people have been enrolled for vaccination");
 				break;
-			case 2:
+				
+				
+			case 2:  //insert one new entry
 				System.out.println("Enter the data: ");
-				System.out.println("Enter name: ");
-				name = sc.next();
-				System.out.println("Enter aadhar card number: ");
-				aadharno = sc.nextLong();
+				
+				do
+				{
+					System.out.println("Enter name: ");
+					name = sc.next();
+					if(!name.matches(Validator))
+					{
+						System.out.println("\nPlease enter a valid name");
+					}
+					
+				}while(!name.matches(Validator));
+				
+				do
+				{
+					System.out.println("Enter aadhar card number: ");
+					aadharno = sc.nextLong();
+					length = (int)(Math.log10(aadharno)+1);
+					if(length != 12)
+					{
+						System.out.println("\nEnter a valid aadhar number");
+					}
+				}while(length != 12);
+				
 				System.out.println("Enter the age");
 				age = sc.nextInt();
 				User u=new User(name,aadharno,age);
 				h.insert(u);
 				System.out.println("The above citizen has been enrolled for vaccination");
                 break;
-			case 3:
-				System.out.println(Users.get(0).toString()+"- Vaccinated");
-				h.delete();
+                
+                
+			case 3:  //deletion
+				
+				max = h.delete();
+				if(max == null)
+				{
+					System.out.println("\n No more people left!!!\n");
+				}
+				else
+				{
+					System.out.println(max.toString()+"- Vaccinated");
+				}
 				break;
-			case 4:
-				System.out.println("The order of patients to be vaccinated is as follows: ");
-				h.print();
+				
+				
+			case 4:  //printing the entries
+				if(Users.size() == 0)
+				{
+					System.out.println("\nThe list is empty\n");
+					
+				}
+				else
+				{
+					System.out.println("The order of patients to be vaccinated is as follows: ");
+					h.print();
+				}
+				
 				break;
+				
 			case 0:
 				System.out.println("No Vaccination will be proceeded further");
 				break;
+				
+			
 			}
+			
+			
 		} while (choice != 0);
 
 		/*

@@ -143,13 +143,6 @@ public class AVL {
 		names[7]="Ruby";
 		names[8]="Jahangir";
 		names[9]="Sancheti";
-		int[] numbers=new int[6];
-		numbers[0]=6;
-		numbers[1]=5;
-		numbers[2]=3;
-		numbers[3]=8;
-		numbers[4]=1;
-		numbers[5]=2;
 		AVL Tree=new AVL();
 		for(int i=0;i<names.length;i++)
 		{

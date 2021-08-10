@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class AVL {
 	private Node root;
@@ -53,19 +54,19 @@ public class AVL {
 			return false;
 		}
 	}
-	public Node insert(Node node,String item)
+	public Node insert(Node node,Hospital h)
 	{
 		if(node==null)
 		{
-			return (new Node(item));
+			return (new Node(h));
 		}
-		if(item.compareTo(node.data)>0)
+		if(h.getName().compareTo(node.h.getName())>0)
 		{
-			node.right=insert(node.right, item);
+			node.right=insert(node.right, h);
 		}
-		else if(item.compareTo(node.data)<0)
+		else if(h.getName().compareTo(node.h.getName())<0)
 		{
-			node.left=insert(node.left, item);
+			node.left=insert(node.left, h);
 		}
 		else
 		{
@@ -75,11 +76,11 @@ public class AVL {
 		int balanceFactor=getBalancefactor(node);
 		if(balanceFactor>1)
 		{
-			if(item.compareTo(node.left.data)<0)
+			if(h.getName().compareTo(node.left.h.getName())<0)
 			{
 				return rightRotate(node);
 			}
-			else if(item.compareTo(node.data)>0)
+			else if(h.getName().compareTo(node.h.getName())>0)
 			{
 				node.left=leftRotate(node.left);
 				return rightRotate(node);
@@ -87,11 +88,11 @@ public class AVL {
 		}
 		if(balanceFactor<-1)
 		{
-			if(item.compareTo(node.data)>0)
+			if(h.getName().compareTo(node.h.getName())>0)
 			{
 				return leftRotate(node);
 			}
-			else if(item.compareTo(node.data)<0)
+			else if(h.getName().compareTo(node.h.getName())<0)
 			{
 				node.right=rightRotate(node.right);
 				return leftRotate(node);
@@ -99,11 +100,32 @@ public class AVL {
 		}
 		return node;
 	}
+	public static Node search(Hospital h, Node root) {
+		Node froot = root;
+		if(froot!=null)
+		{
+			if(h.getName().compareTo(froot.h.getName())>0)
+			{
+				froot=search(h,froot.right);
+			}
+			else if(h.getName().compareTo(froot.h.getName())<0)
+			{
+				froot=search(h,froot.left);
+			}
+			else if(h.getName().compareTo(froot.h.getName())==0)
+			{
+				//System.out.println("\nEqual mila"+root.data);
+				return froot;
+			}
+		}
+		//System.out.println("\nSabse bahar"+root.data);
+		return froot;
+	}
 	public void printPreorder(Node root)
 	{
 		if(root!=null)
 		{
-			System.out.println(root.data);
+			System.out.println(root.h.getName());
 			printPreorder(root.left);
 			printPreorder(root.right);
 		}
@@ -113,7 +135,7 @@ public class AVL {
 		if(root!=null)
 		{
 			printInorder(root.left);
-			System.out.println(root.data);
+			System.out.println(root.h.getName());
 			printInorder(root.right);
 		}
 	}
@@ -121,34 +143,59 @@ public class AVL {
 	{
 		private Node left;
 		private Node right;
-		private String data;
+		private Hospital h;
 		private int height;
 		
-		Node(String data)
+		Node(Hospital h)
 		{
-			this.data=data;
+			this.h=h;
 			height=1;
 		}
 	}
 	public static void main(String [] args)
 	{
-		String[] names=new String[10];
-		names[0]="Appollo Jubliee";
-		names[1]="LV Prasad";
-		names[2]="Rainbow";
-		names[3]="Appollo Hitech";
-		names[4]="KIMS";
-		names[5]="Deenanaat";
-		names[6]="Sasun";
-		names[7]="Ruby";
-		names[8]="Jahangir";
-		names[9]="Sancheti";
+		Hospital[] hospitals=new Hospital[10];
+		hospitals[0]=new Hospital("Apollo Jubliee");
+		hospitals[1]=new Hospital("Apollo Jubliee");
+		hospitals[2]=new Hospital("Rainbow");
+		hospitals[3]=new Hospital("Appollo Hitech");
+		hospitals[4]=new Hospital("KIMS");
+		hospitals[5]=new Hospital("Deenanaat");
+		hospitals[6]=new Hospital("Sasun");
+		hospitals[7]=new Hospital("Ruby");
+		hospitals[8]=new Hospital("Jahangir");
+		hospitals[9]=new Hospital("Sancheti");
 		AVL Tree=new AVL();
-		for(int i=0;i<names.length;i++)
+		/*
+		for(int i=0;i<hospitals.length;i++)
 		{
-			Tree.root=Tree.insert(Tree.root, names[i]);
+			Tree.root=Tree.insert(Tree.root, hospitals[i]);
 		}
 		Tree.printPreorder(Tree.root);
+		*/
+		String choice;
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Name of the hospital you want to search up: ");
+		choice=sc.next();
+		Hospital Required=new Hospital(choice);
+		Node searched=search(Required,Tree.root);
+		if(searched!=null)
+		{
+			System.out.println("Available slots for "+searched.h.getName()+": "+searched.h.getSlotsLeft());
+		}
+		else
+		{
+			System.out.println("Hospital doesn't exist in the list");
+		}
+		boolean bookSlot;
+		System.out.println("Do you want to book the slot?: ");
+		bookSlot=sc.nextBoolean();
+		if(bookSlot==true)
+		{
+			System.out.println("How many slots do you want to book?: ");
+			int slots=sc.nextInt();
+			int availableSlots=searched.h.getSlotsLeft()-slots;
+			searched.h.setSlotsLeft(availableSlots);
+		}
 	}
-
 }

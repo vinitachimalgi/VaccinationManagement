@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class PriorityQueue {
 
-	public static void main(String[] args) {
+	public static void use() {
 		ArrayList<User> Users = new ArrayList<User>();
 		Scanner sc = new Scanner(System.in);
 		int n, age;
@@ -150,5 +150,9 @@ public class PriorityQueue {
 			choice=sc.nextInt();
 		}while(choice<0 || choice>4);
 		return choice;
+	}
+	public static void main(String [] args)
+	{
+		use();
 	}
 }

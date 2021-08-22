@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class AVL {
-	private Node root;
+	protected Node root;
 	//not working
 	public int getHeight(Node n)
 	{
@@ -100,7 +100,7 @@ public class AVL {
 		}
 		return node;
 	}
-	public static Node search(Hospital h, Node root) {
+	public Node search(Hospital h, Node root) {
 		Node froot = root;
 		if(froot!=null)
 		{
@@ -114,11 +114,11 @@ public class AVL {
 			}
 			else if(h.getName().compareTo(froot.h.getName())==0)
 			{
-				//System.out.println("\nEqual mila"+root.data);
+				//System.out.println("\nEqual mila"+froot.h.getName());
 				return froot;
 			}
 		}
-		//System.out.println("\nSabse bahar"+root.data);
+		//System.out.println("\nSabse bahar"+froot.h.getName());
 		return froot;
 	}
 	public void printPreorder(Node root)
@@ -139,21 +139,24 @@ public class AVL {
 			printInorder(root.right);
 		}
 	}
+	/*
 	public class Node
 	{
 		private Node left;
 		private Node right;
 		private Hospital h;
 		private int height;
-		
+
 		Node(Hospital h)
 		{
 			this.h=h;
 			height=1;
 		}
 	}
+	*/
 	public static void main(String [] args)
 	{
+		/*
 		Hospital[] hospitals=new Hospital[10];
 		hospitals[0]=new Hospital("Apollo Jubliee");
 		hospitals[1]=new Hospital("Apollo Jubliee");
@@ -166,18 +169,12 @@ public class AVL {
 		hospitals[8]=new Hospital("Jahangir");
 		hospitals[9]=new Hospital("Sancheti");
 		AVL Tree=new AVL();
-		/*
 		for(int i=0;i<hospitals.length;i++)
 		{
 			Tree.root=Tree.insert(Tree.root, hospitals[i]);
 		}
 		Tree.printPreorder(Tree.root);
-		*/
-		String choice;
-		Scanner sc=new Scanner(System.in);
-		System.out.println("Name of the hospital you want to search up: ");
-		choice=sc.next();
-		Hospital Required=new Hospital(choice);
+		Hospital Required=new Hospital(HospitalName);
 		Node searched=search(Required,Tree.root);
 		if(searched!=null)
 		{
@@ -187,15 +184,6 @@ public class AVL {
 		{
 			System.out.println("Hospital doesn't exist in the list");
 		}
-		boolean bookSlot;
-		System.out.println("Do you want to book the slot?: ");
-		bookSlot=sc.nextBoolean();
-		if(bookSlot==true)
-		{
-			System.out.println("How many slots do you want to book?: ");
-			int slots=sc.nextInt();
-			int availableSlots=searched.h.getSlotsLeft()-slots;
-			searched.h.setSlotsLeft(availableSlots);
-		}
+	*/
 	}
 }
